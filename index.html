@@ -4,25 +4,88 @@
     <meta charset="UTF-8">
     <title>Albert's Little Site</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script
       src="https://code.jquery.com/jquery-3.1.0.min.js"
       integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
       crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" type="text/css" href="semantic.min.css">
     <script src="semantic.min.js"></script>
   </head>
   <body>
-    <section>
-      <h1 class="project-name">Albert's Little Site</h1>
-    </section>
+    <div class="ui centered grid">
+      <div class='centered aligned column'>
+        <header class='ui large compact secondary pointing menu'>
+          <a
+            style='
+              margin: 70px 150px;
+              font-family: Avenir-Book;
+              font-size: 64px;
+              font-weight: normal;
+              font-style: normal;
+              font-stretch: normal;
+              color: #000000;
+            '
+            class='Heading1'
+          >
+            <h1>Albert's Little Site</h1>
+            <div style='font-size: 20px'>
+              <p>Hi, my name is Xuanzhe Wang. You can call me Albert!<p>
+              <p>Welcome to my site<p>
+            </div>
+          </a>
+        </header>
+      </div>
+    </div>
 
     <section class="main-content">
-      My Work
-      <p>Web Tech</p>
-      <p>3D and VR</p>
-      <p>Deep Learning</p>
-      <p>Tutorials</p>
+      <div class="ui grid">
+        <dic class='row'>
+          <div class="two wide column"></div>
+          <div class="six wide column">
+            <div
+              class="ui raised very padded text container segment"
+              style="max-width: 555px!important">
+              <h2 class="ui header">Web Tech</h2>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+          <div class="six wide column">
+            <div
+              class="ui raised very padded text container segment"
+              style="max-width: 555px!important">
+              <h2 class="ui header">Deep Learning</h2>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+        <div class="two wide column"></div>
+        </dic class='row'>
+        <dic class='row'>
+          <div class="two wide column"></div>
+          <div class="six wide column">
+            <div
+              class="ui raised very padded text container segment"
+              style="max-width: 555px!important">
+              <h2 class="ui header">3D and VR</h2>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+          <div class="six wide column">
+            <div
+              class="ui raised very padded text container segment"
+              style="max-width: 555px!important">
+              <h2 class="ui header">Tutorials</h2>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+          <div class="two wide column"></div>
+        </dic class='row'>
+      </div>
     </section>
   </body>
 </html>
