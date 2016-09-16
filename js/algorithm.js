@@ -1,4 +1,9 @@
+/* Generic Algorithms */
 var Algorithm = {
+  /*
+   * Generic quick sort.
+   * The caller scope needs to implement swap and compare depending on what type of array it tries to sort
+   */
   quick_sort: function quick_sort(array, start, end, swap, compare) {
     if(end > start) {
       var wall = this.partition(array, start, end, swap, compare);
@@ -21,6 +26,7 @@ var Algorithm = {
 };
 
 
+/* 3D */
 function smaller_than(cube1, cube2) {
   return cube1.geometry.parameters.height < cube2.geometry.parameters.height;
 }
@@ -37,7 +43,6 @@ function swap(array, a, b) {
   array[a] = array[b];
   array[b] = temp;
 }
-
 
 
 // add a column to scene
