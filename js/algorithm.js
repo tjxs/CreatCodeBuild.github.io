@@ -46,18 +46,32 @@ function swap(array, a, b) {
 
 
 // add a column to scene
-function create_column(scene, columns, pos, height) {
+function create_column(columns, pos, height) {
   var geometry = new THREE.BoxGeometry( 0.5, height, 0.5 );
   var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
   var cube = new THREE.Mesh( geometry, material );
   cube.position.set(pos[0], pos[1], pos[2]);
   columns.push(cube);
-  scene.add( cube );
+}
+
+function init_columns(numColumns) {
+  columns = [];
+  for(var i = 0; i < numColumns; i++) {
+    create_column(columns, [i*2-Math.floor(numColumns/2)*2, 0, 0], numColumns - i);
+  }
+  return columns;
+}
+
+function add_all_to(scene, columns) {
+  for(var c in columns) {
+    // console.log(columns[c])
+    scene.add(columns[c]);
+  }
 }
 
 var i = 0;
 function sort(columns) {
-  if (i == 50) {
+  if (i == 10) {
     print(columns);
     Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
     print(columns);
@@ -84,16 +98,11 @@ function render() {
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
-var columns = [];
-
-create_column(scene, columns, [-4,0,0], 2);
-create_column(scene, columns, [-2,0,0], 3);
-create_column(scene, columns, [0,0,0], 1);
-create_column(scene, columns, [2,0,0], 4);
-create_column(scene, columns, [4,0,0], 5);
+var columns = init_columns(1000);
+add_all_to(scene, columns);
 
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-camera.position.z = 10;
+camera.position.z = 500;
 
 render();
