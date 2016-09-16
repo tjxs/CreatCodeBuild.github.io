@@ -15,28 +15,27 @@
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			var renderer = new THREE.WebGLRenderer();
-
-
-
-
+			var columns = [];
 
 			// add a column to scene
-			function create_column(scene) {
-				var geometry = new THREE.BoxGeometry( 1, 2, 2 );
+			function create_column(scene, columns, pos) {
+				var geometry = new THREE.BoxGeometry( 1, 2, 1 );
 				var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 				var cube = new THREE.Mesh( geometry, material );
 				// console.log(cube.position)
-				// cube.position.set(0, 0, 0);
+				cube.position.set(pos[0], pos[1], pos[2]);
+				columns.push(cube);
 				scene.add( cube );
-				return cube;
 			}
 
-			var cube = create_column(scene);
+			create_column(scene, columns, [0,0,0]);
+			create_column(scene, columns, [2,0,0]);
+			create_column(scene, columns, [-2,0,0]);
 
 			function render() {
 				requestAnimationFrame( render );
 				renderer.render( scene, camera );
-				cube.rotation.x += 0.01;
+//				cube.rotation.x += 0.01;
 				// cube.rotation.y += 0.01;
 			}
 
