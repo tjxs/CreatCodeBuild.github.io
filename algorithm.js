@@ -25,8 +25,11 @@ function smaller_than(cube1, cube2) {
   return cube1.geometry.parameters.height < cube2.geometry.parameters.height;
 }
 
+function larger_than(cube1, cube2) {
+  return cube1.geometry.parameters.height > cube2.geometry.parameters.height;
+}
+
 function swap(array, a, b) {
-  console.log('swap', a, b);
   var x = array[a].position.x;
   array[a].position.setX(array[b].position.x);
   array[b].position.setX(x);
@@ -50,9 +53,6 @@ function create_column(scene, columns, pos, height) {
 var i = 0;
 function sort(columns) {
   if (i == 50) {
-    // console.log(columns[0].geometry.parameters);
-    // console.log(columns[1].geometry.parameters);
-    // console.log(columns[2].geometry.parameters);
     print(columns);
     Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
     print(columns);
@@ -81,11 +81,11 @@ var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHe
 var renderer = new THREE.WebGLRenderer();
 var columns = [];
 
-create_column(scene, columns, [-2,0,0], 2);
-create_column(scene, columns, [0,0,0], 3);
-create_column(scene, columns, [2,0,0], 1);
-// create_column(scene, columns, [-4,0,0], 4);
-// create_column(scene, columns, [4,0,0], 5);
+create_column(scene, columns, [-4,0,0], 2);
+create_column(scene, columns, [-2,0,0], 3);
+create_column(scene, columns, [0,0,0], 1);
+create_column(scene, columns, [2,0,0], 4);
+create_column(scene, columns, [4,0,0], 5);
 
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
