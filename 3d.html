@@ -19,7 +19,7 @@
 			var columnsModel = ColumnsModel(2, -numColumns);
 //			columns = [];
 			for(var i = 0; i < numColumns; i++) {
-				columnsModel.create_column(numColumns - i);
+				columnsModel.create_column(Math.floor(Math.random() * (300)) + 1);
 			}
 //			return columns;
 			return columnsModel;
@@ -37,11 +37,11 @@
 		function render() {
 			requestAnimationFrame( render );
 			renderer.render( scene, camera );
-			if(i % 10 === 0) {
+			if(i % 1 === 0) {
 				if(f){
 //					console.log(i);
 				}
-				var next = mergeSortGenerator.next();
+				var next = quickSortGenerator.next();
 				columnsModel.justify_position();
 //				console.log('step:', i);
 //				if ( next.done && f ) {
@@ -58,7 +58,7 @@
 		var scene = new THREE.Scene();
 		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		var renderer = new THREE.WebGLRenderer();
-		var columnsModel = init_columns(100);
+		var columnsModel = init_columns(450);
 		add_all_to(scene, columnsModel.columns);
 
 		var quickSortGenerator = Algorithm.quick_sort(columnsModel.columns, 0, columnsModel.columns.length-1, swap, smaller_than);
@@ -66,7 +66,7 @@
 
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
-		camera.position.z = 100;
+		camera.position.z = 300;
 		render();
 	</script>
 	</body>
