@@ -4,24 +4,42 @@ var Algorithm = {
    * Generic quick sort.
    * The caller scope needs to implement swap and compare depending on what type of array it tries to sort
    */
-  quick_sort: function quick_sort(array, start, end, swap, compare) {
+  quick_sort: function* quick_sort(array, start, end, swap, compare) {
     if(end > start) {
-      var wall = this.partition(array, start, end, swap, compare);
-      this.quick_sort(array, start, wall-1, swap, compare);
-      this.quick_sort(array, wall+1, end, swap, compare);
+      var partitionGeneratorObj = this.partition(array, start, end, swap, compare);
+      var wall = undefined;
+      var done = false;
+      while(!done) {
+        var next = partitionGeneratorObj.next();
+        // console.log('b finally yield ee', fy);
+        if(next.value === undefined) {
+          console.log(next.value);
+          yield;
+        } else {
+          // console.log('b finally yield', fy);
+          wall = next.value;
+          done = true;
+        }
+      }
+      // var wall = yield* .value;
+      yield* this.quick_sort(array, start, wall-1, swap, compare);
+      yield* this.quick_sort(array, wall+1, end, swap, compare);
     }
   },
 
-  partition: function partition(array, start, end, swap, compare) {
+  partition: function* partition(array, start, end, swap, compare) {
     var wall = start;
     for(var i = start; i < end; i++) {
       if(compare(array[i], array[end])) {
+        console.log(wall, i);
         swap(array, wall, i);
+        yield;
         wall++;
       }
     }
+    console.log('wall', wall, end);
     swap(array, wall, end);
-    return wall;
+    yield wall;
   }
 };
 
@@ -70,14 +88,14 @@ function add_all_to(scene, columns) {
 }
 
 var i = 0;
-function sort(columns) {
-  if (i == 10) {
-    print(columns);
-    Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
-    print(columns);
-  }
-  i++;
-}
+// function sort(columns) {
+//   if (i == 10) {
+//     print(columns);
+//     Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
+//     print(columns);
+//   }
+//   i++;
+// }
 
 function print(columns) {
   for(var i = 0; i < columns.length; i++) {
@@ -90,19 +108,27 @@ function print(columns) {
 
 
 /* Start */
+
 function render() {
   requestAnimationFrame( render );
   renderer.render( scene, camera );
-  sort(columns);
+  // sort(columns);
+  if (i % 20 === 19) {
+  //   console.log(i);
+    quickSortGenerator.next();
+  }
+  i++;
 }
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 var renderer = new THREE.WebGLRenderer();
-var columns = init_columns(1000);
+var columns = init_columns(50);
 add_all_to(scene, columns);
+
+var quickSortGenerator = Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
 
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-camera.position.z = 500;
+camera.position.z = 100;
 
 render();
