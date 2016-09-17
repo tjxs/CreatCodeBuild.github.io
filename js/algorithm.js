@@ -3,6 +3,7 @@ var Algorithm = {
   /*
    * Generic quick sort.
    * The caller scope needs to implement swap and compare depending on what type of array it tries to sort
+   * This Algorithm object implements generators only
    */
   quick_sort: function* quick_sort(array, start, end, swap, compare) {
     if(end > start) {
@@ -44,25 +45,49 @@ var Algorithm = {
 
   merge_sort: function* merge_sort(array, move_to, compare) {
     if (array.length > 1) {
+      var done = false;
       // console.log(array.length);
       var m = Math.floor(array.length / 2);
       var left = array.slice(0, m);
       var right = array.slice(m);
-      yield* this.merge_sort(left, move_to, compare);
-      yield* this.merge_sort(right, move_to, compare);
-      // yield* this.merge(array, left, right, move_to, compare);
+
+      var mergeSortLeft = this.merge_sort(left, move_to, compare);
+      while(!done) {
+        var next = mergeSortLeft.next();
+        if(next.value === undefined) {
+          yield
+        } else {
+          done = true;
+        }
+      }
+
+      var mergeSortRight = this.merge_sort(right, move_to, compare);
+      done = false;
+      while(!done) {
+        var next = mergeSortRight.next();
+        if(next.value === undefined) {
+          yield
+        } else {
+          done = true;
+        }
+      }
+      // yield* this.merge_sort(left, move_to, compare);
+      // yield* this.merge_sort(right, move_to, compare);
+
+      // merge
       var mergeGeneratorObj = this.merge(array, left, right, move_to, compare);
-      var done = false;
+      done = false;
       while(!done) {
         var next = mergeGeneratorObj.next();
         if(next.value === undefined) {
-          console.log(next.value);
+          // console.log(next.value);
           yield;
         } else {
           done = true;
         }
       }
     }
+    yield 'done';
   },
 
   merge: function* merge(array, leftArray, rightArray, move_to, compare) {
@@ -72,12 +97,12 @@ var Algorithm = {
     while(l_i < leftArray.length && r_i < rightArray.length) {
       if(compare(leftArray[l_i], rightArray[r_i])) {
         // array[i] = leftArray[l_i];
-        console.log('c', i, array.length);
+        // console.log('c', i, array.length);
         move_to(leftArray[l_i], array, i);
         l_i += 1;
       } else {
         // array[i] = rightArray[r_i];
-        console.log('d', i, array.length);
+        // console.log('d', i, array.length);
         move_to(rightArray[r_i], array, i);
         r_i += 1;
       }
@@ -87,7 +112,7 @@ var Algorithm = {
     // copy the remaining
     while(l_i < leftArray.length) {
       // array[i] = leftArray[l_i];
-      console.log('a', i, array.length);
+      // console.log('a', i, array.length);
       move_to(leftArray[l_i], array, i);
       l_i += 1;
       i += 1;
@@ -95,7 +120,7 @@ var Algorithm = {
     }
     while(r_i < rightArray.length) {
       // array[i] = rightArray[r_i];
-      console.log('b', i, array.length);
+      // console.log('b', i, array.length);
       move_to(rightArray[r_i], array, i);
       r_i += 1;
       i += 1;

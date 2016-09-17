@@ -8,8 +8,8 @@
 
 
 function smaller_than(cube1, cube2) {
-  console.log(123);
-  console.log(cube1.position.x, cube2.position.x);
+  // console.log(123);
+  // console.log(cube1.position.x, cube2.position.x);
   return cube1.geometry.parameters.height < cube2.geometry.parameters.height;
 }
 
@@ -18,20 +18,20 @@ function larger_than(cube1, cube2) {
 }
 
 function swap(array, a, b) {
-  var x = array[a].position.x;
-  array[a].position.setX(array[b].position.x);
-  array[b].position.setX(x);
+  // var x = array[a].position.x;
+  // array[a].position.setX(array[b].position.x);
+  // array[b].position.setX(x);
   var temp = array[a];
   array[a] = array[b];
   array[b] = temp;
 }
 
 function move_to(fromEle, array, toIndex) {
-  var x = toIndex*2-100;
-  console.log('before move', fromEle.position.x, x);
-  fromEle.position.setX(x);
+  // var x = toIndex*2-100;
+  // console.log('before move', fromEle.position.x, x);
+  // fromEle.position.setX(x);
   array[toIndex] = fromEle;
-  console.log('after move', fromEle.position.x);
+  // console.log('after move', fromEle.position.x);
 }
 
 
@@ -48,11 +48,14 @@ function ColumnsModel(step, begin) {
   /*
    * Should be called every time after elements in columns are changed in position
   **/
+  let count = 1;
   function justify_position() {
+    console.log('justify_position', count++);
     for(var index in model.columns) {
       var rightPos = right_pos_of_column(index);
-      if(columns[index].position.x !== rightPos) {
-        columns[index].position.x = rightPos;
+      if(model.columns[index].position.x !== rightPos) {
+        console.log('not right', model.columns[index].position.x, rightPos);
+        model.columns[index].position.x = rightPos;
       }
     }
   }
@@ -65,20 +68,20 @@ function ColumnsModel(step, begin) {
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
     var cube = new THREE.Mesh( geometry, material );
     cube.position.set(right_pos_of_column(model.columns.length), 0, 0);  //x, y, z
-    columns.push(cube);
+    model.columns.push(cube);
   }
 
   function right_pos_of_column(index) {
     return model.begin + index*model.step;
   }
 
-  function print(columns) {
-    for(var i = 0; i < columns.length; i++) {
-      console.log(columns[i].geometry.parameters.height, columns[i].position.x);
+  function print() {
+    for(var i = 0; i < model.columns.length; i++) {
+      console.log(model.columns[i].geometry.parameters.height, model.columns[i].position.x);
     }
   }
 
   return model;
 }
 
-export { ColumnsModel };
+// export default { ColumnsModel };

@@ -9,19 +9,17 @@
 		</style>
 		<script src="js/three.js"></script>
 		<script src="js/algorithm.js"></script>
+		<script src="js/model.js"></script>
 	</head>
 	<body>
 	<script>
-		import {ColumnsModel} from 'model';
+//		import ColumnsModel from 'js/model';
 		/* 3D */
-
-
-
 		function init_columns(numColumns) {
-			var columnsModel = ColumnsModel(2, -numColumns/2);
+			var columnsModel = ColumnsModel(2, -numColumns);
 //			columns = [];
 			for(var i = 0; i < numColumns; i++) {
-				columnsModel.create_column(numColumns - 1);
+				columnsModel.create_column(numColumns - i);
 			}
 //			return columns;
 			return columnsModel;
@@ -39,32 +37,36 @@
 		function render() {
 			requestAnimationFrame( render );
 			renderer.render( scene, camera );
-			if(i % 2 == 1) {
+			if(i % 10 === 0) {
 				if(f){
 //					console.log(i);
 				}
 				var next = mergeSortGenerator.next();
-				if ( next.done && f ) {
-					print(columns);
-					f = false;
-				}
+				columnsModel.justify_position();
+//				console.log('step:', i);
+//				if ( next.done && f ) {
+//					print(columns);
+//					f = false;
+//				}
 			}
+//			if(i === 700) {
+//				columnsModel.print();
+//			}
 			i++;
 		}
 
 		var scene = new THREE.Scene();
 		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		var renderer = new THREE.WebGLRenderer();
-		var columns = init_columns(100);
-		add_all_to(scene, columns);
+		var columnsModel = init_columns(100);
+		add_all_to(scene, columnsModel.columns);
 
-		var quickSortGenerator = Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
-		var mergeSortGenerator = Algorithm.merge_sort(columns, move_to, smaller_than);
+		var quickSortGenerator = Algorithm.quick_sort(columnsModel.columns, 0, columnsModel.columns.length-1, swap, smaller_than);
+		var mergeSortGenerator = Algorithm.merge_sort(columnsModel.columns, move_to, smaller_than);
 
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 		camera.position.z = 100;
-		print(columns);
 		render();
 	</script>
 	</body>
