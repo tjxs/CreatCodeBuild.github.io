@@ -14,7 +14,10 @@
 	<script>
 		/* 3D */
 		function smaller_than(cube1, cube2) {
+			console.log(123);
+			console.log(cube1.position.x, cube2.position.x);
 			return cube1.geometry.parameters.height < cube2.geometry.parameters.height;
+
 		}
 
 		function larger_than(cube1, cube2) {
@@ -28,6 +31,14 @@
 			var temp = array[a];
 			array[a] = array[b];
 			array[b] = temp;
+		}
+
+		function move_to(fromEle, array, toIndex) {
+			var x = toIndex*2-100;
+			console.log('before move', fromEle.position.x, x);
+			fromEle.position.setX(x);
+			array[toIndex] = fromEle;
+			console.log('after move', fromEle.position.x);
 		}
 
 
@@ -64,24 +75,37 @@
 
 
 		/* Start */
-
+		var i = 0;
+		var f = true;
 		function render() {
 			requestAnimationFrame( render );
 			renderer.render( scene, camera );
-			quickSortGenerator.next();
+			if(i % 2 == 1) {
+				if(f){
+//					console.log(i);
+				}
+				var next = mergeSortGenerator.next();
+				if ( next.done && f ) {
+					print(columns);
+					f = false;
+				}
+			}
+			i++;
 		}
+
 		var scene = new THREE.Scene();
 		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		var renderer = new THREE.WebGLRenderer();
-		var columns = init_columns(50);
+		var columns = init_columns(100);
 		add_all_to(scene, columns);
 
 		var quickSortGenerator = Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
+		var mergeSortGenerator = Algorithm.merge_sort(columns, move_to, smaller_than);
 
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 		camera.position.z = 100;
-
+		print(columns);
 		render();
 	</script>
 	</body>

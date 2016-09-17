@@ -42,42 +42,69 @@ var Algorithm = {
     yield wall;
   },
 
-  merge_sort: function merge_sort(array) {
-    if (array.length() > 1) {
-      var m = Math.floor(array.length() / 2);
+  merge_sort: function* merge_sort(array, move_to, compare) {
+    if (array.length > 1) {
+      // console.log(array.length);
+      var m = Math.floor(array.length / 2);
       var left = array.slice(0, m);
       var right = array.slice(m);
-      this.merge_sort(left);
-      this.merge_sort(right);
-      this.merge(array, left, right);
+      yield* this.merge_sort(left, move_to, compare);
+      yield* this.merge_sort(right, move_to, compare);
+      // yield* this.merge(array, left, right, move_to, compare);
+      var mergeGeneratorObj = this.merge(array, left, right, move_to, compare);
+      var done = false;
+      while(!done) {
+        var next = mergeGeneratorObj.next();
+        // console.log('b finally yield ee', fy);
+        if(next.value === undefined) {
+          console.log(next.value);
+          yield;
+        } else {
+          // console.log('b finally yield', fy);
+          done = true;
+        }
+      }
     }
   },
 
-  merge: function merge(array, leftArray, rightArray) {
+  merge: function* merge(array, leftArray, rightArray, move_to, compare) {
     var i = 0;
     var l_i = 0;
     var r_i = 0;
-    while(l_i < leftArray && r_i < rightArray.length) {
-      if(leftArray[l_i] < rightArray[r_i]) {
-        array[i] = leftArray[l_i];
-        l_i += i;
+    while(l_i < leftArray.length && r_i < rightArray.length) {
+      if(compare(leftArray[l_i], rightArray[r_i])) {
+        // array[i] = leftArray[l_i];
+        console.log('c', i, array.length);
+        move_to(leftArray[l_i], array, i);
+        l_i += 1;
       } else {
-        array[i] = rightArray[r_i];
-        r_i += i;
+        // array[i] = rightArray[r_i];
+        console.log('d', i, array.length);
+        move_to(rightArray[r_i], array, i);
+        r_i += 1;
       }
       i++;
+      yield;
     }
     // copy the remaining
     while(l_i < leftArray.length) {
-      array[i] = leftArray[l_i];
+      // array[i] = leftArray[l_i];
+      console.log('a', i, array.length);
+      move_to(leftArray[l_i], array, i);
       l_i += 1;
       i += 1;
+      yield;
     }
     while(r_i < rightArray.length) {
-      array[i] = rightArray[r_i];
+      // array[i] = rightArray[r_i];
+      console.log('b', i, array.length);
+      move_to(rightArray[r_i], array, i);
       r_i += 1;
       i += 1;
+      yield;
     }
+    console.log('merge');
+    yield 'done';
   }
 };
 
