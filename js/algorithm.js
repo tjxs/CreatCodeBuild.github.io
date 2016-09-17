@@ -87,16 +87,6 @@ function add_all_to(scene, columns) {
   }
 }
 
-var i = 0;
-// function sort(columns) {
-//   if (i == 10) {
-//     print(columns);
-//     Algorithm.quick_sort(columns, 0, columns.length-1, swap, smaller_than);
-//     print(columns);
-//   }
-//   i++;
-// }
-
 function print(columns) {
   for(var i = 0; i < columns.length; i++) {
     console.log(columns[i].geometry.parameters.height, columns[i].position.x);
@@ -105,19 +95,12 @@ function print(columns) {
 }
 
 
-
-
 /* Start */
 
 function render() {
   requestAnimationFrame( render );
   renderer.render( scene, camera );
-  // sort(columns);
-  if (i % 20 === 19) {
-  //   console.log(i);
-    quickSortGenerator.next();
-  }
-  i++;
+  quickSortGenerator.next();
 }
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
