@@ -55,12 +55,10 @@ var Algorithm = {
       var done = false;
       while(!done) {
         var next = mergeGeneratorObj.next();
-        // console.log('b finally yield ee', fy);
         if(next.value === undefined) {
           console.log(next.value);
           yield;
         } else {
-          // console.log('b finally yield', fy);
           done = true;
         }
       }
