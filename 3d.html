@@ -8,6 +8,7 @@
 			canvas { width: 90%; height: 90% }
 		</style>
 		<script src="js/three.js"></script>
+		<script src="js/PointerLockControls.js"></script>
 		<script src="js/algorithm.js"></script>
 		<script src="js/model.js"></script>
 	</head>
@@ -17,7 +18,7 @@
 		function init_columns(numColumns) {
 			var columnsModel = ColumnsModel(2, -numColumns);
 			for(var i = 0; i < numColumns; i++) {
-				columnsModel.create_column(Math.floor(Math.random() * (300)) + 1);
+				columnsModel.create_column(Math.floor(Math.random() * (100)) + 1);
 			}
 			return columnsModel;
 		}
@@ -37,7 +38,7 @@
 		camera.position.z = 300;
 
 		// models
-		var columnsModel = init_columns(450);
+		var columnsModel = init_columns(250);
 		add_all_to(scene, columnsModel.columns);
 
 		var quickSortGenerator = Algorithm.quick_sort(columnsModel.columns, 0, columnsModel.columns.length-1, swap, smaller_than);
@@ -70,10 +71,104 @@
 				case 's':
 					camera.position.z += speed;
 					break;
+				case 'r':
+					var element = document.body;
+					element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+					element.requestPointerLock();
+					break;
 			}
 		};
-		camera.up = new THREE.Vector3(0,1,0);
-		camera.lookAt(new THREE.Vector3(0,0,1));
+
+//		var controls;
+//		controls = new THREE.PointerLockControls( camera );
+//		scene.add( controls.getObject() );
+
+		var controls;
+		var raycaster;
+
+		// http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+
+		var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+		console.log('!!!');
+
+		if ( havePointerLock ) {
+			console.log('123');
+
+			var element = document.body;
+
+			var pointerlockchange = function ( event ) {
+				if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+					controlsEnabled = true;
+					controls.enabled = true;
+					console.log('???');
+				} else {
+					console.log('???123');
+					controls.enabled = false;
+				}
+			};
+			// Hook pointer lock state change events
+			document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+			document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
+			document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
+
+//			// Ask the browser to lock the pointer
+//			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+//			element.requestPointerLock();
+
+		} else {
+
+			console.log('Your browser doesn\'t seem to support Pointer Lock API');
+
+		}
+
+		init();
+		animate();
+
+		var controlsEnabled = false;
+
+		var prevTime = performance.now();
+		var velocity = new THREE.Vector3();
+
+		function init() {
+			controls = new THREE.PointerLockControls( camera );
+			scene.add( controls.getObject() );
+			raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
+			//
+			renderer.setClearColor( 0xffffff );
+			renderer.setPixelRatio( window.devicePixelRatio );
+			document.body.appendChild( renderer.domElement );
+		}
+
+		function animate() {
+			requestAnimationFrame( animate );
+			if ( controlsEnabled ) {
+				raycaster.ray.origin.copy( controls.getObject().position );
+				raycaster.ray.origin.y -= 10;
+
+				var time = performance.now();
+				var delta = ( time - prevTime ) / 1000;
+
+				velocity.x -= velocity.x * 10.0 * delta;
+				velocity.z -= velocity.z * 10.0 * delta;
+
+				velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+				if ( isOnObject === true ) {
+					velocity.y = Math.max( 0, velocity.y );
+				}
+
+				controls.getObject().translateX( velocity.x * delta );
+				controls.getObject().translateY( velocity.y * delta );
+				controls.getObject().translateZ( velocity.z * delta );
+
+				if ( controls.getObject().position.y < 10 ) {
+					velocity.y = 0;
+					controls.getObject().position.y = 10;
+				}
+				prevTime = time;
+			}
+			renderer.render( scene, camera );
+		}
 	</script>
 	</body>
 </html>
