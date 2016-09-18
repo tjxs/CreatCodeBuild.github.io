@@ -5,7 +5,7 @@
 		<title>My first Three.js app</title>
 		<style>
 			body { margin: 0; }
-			canvas { width: 100%; height: 100% }
+			canvas { width: 90%; height: 90% }
 		</style>
 		<script src="js/three.js"></script>
 		<script src="js/algorithm.js"></script>
@@ -30,7 +30,7 @@
 
 		/* Start */
 		var scene = new THREE.Scene();
-		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		var camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		var renderer = new THREE.WebGLRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
@@ -65,15 +65,15 @@
 					camera.position.x += speed;
 					break;
 				case 'w':
-					camera.position.y += speed;
+					camera.position.z -= speed;
 					break;
 				case 's':
-					camera.position.y -= speed;
+					camera.position.z += speed;
 					break;
 			}
 		};
-		camera.up = new THREE.Vector3(0,0,1);
-		camera.lookAt(new THREE.Vector3(0,0,-1));
+		camera.up = new THREE.Vector3(0,1,0);
+		camera.lookAt(new THREE.Vector3(0,0,1));
 	</script>
 	</body>
 </html>
