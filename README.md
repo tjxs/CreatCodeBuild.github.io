@@ -1,2 +1,2 @@
 # CreatCodeBuild.github.io
-CreatCodeBuild.github.io
+https://creatcodebuild.github.io/
