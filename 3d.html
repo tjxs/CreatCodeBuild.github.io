@@ -63,7 +63,10 @@
 		add_all_to(scene, columnsModel4.columns);
 
 
-		var quickSortGenerator = Algorithm.quick_sort(columnsModel1.columns, 0, columnsModel1.columns.length-1, swap, smaller_than);
+		var quickSortGenerator1 = Algorithm.quick_sort(columnsModel1.columns, 0, columnsModel1.columns.length-1, swap, smaller_than);
+		var quickSortGenerator2 = Algorithm.quick_sort(columnsModel2.columns, 0, columnsModel2.columns.length-1, swap, larger_than);
+		var quickSortGenerator3 = Algorithm.quick_sort(columnsModel3.columns, 0, columnsModel3.columns.length-1, swap, smaller_than);
+		var quickSortGenerator4 = Algorithm.quick_sort(columnsModel4.columns, 0, columnsModel4.columns.length-1, swap, larger_than);
 		// var mergeSortGenerator = Algorithm.merge_sort(columnsModel.columns, move_to, smaller_than);
 
 		// key, user interaction
@@ -85,7 +88,7 @@
 
 		THREE.FirstPersonControls(camera);
 		controls = new THREE.FirstPersonControls( camera );
-		controls.movementSpeed = 100;
+		controls.movementSpeed = 200;
 		controls.lookSpeed = 100;
 		controls.noFly = true;
 		controls.lookVertical = true;
@@ -95,8 +98,14 @@
 		(function render() {
 			requestAnimationFrame( render );
 			renderer.render( scene, camera );
-			quickSortGenerator.next();
+			quickSortGenerator1.next();
+			quickSortGenerator2.next();
+			quickSortGenerator3.next();
+			quickSortGenerator4.next();
 			columnsModel1.justify_position();
+			columnsModel2.justify_position();
+			columnsModel3.justify_position();
+			columnsModel4.justify_position();
 			controls.update( clock.getDelta());
 		})();
 
