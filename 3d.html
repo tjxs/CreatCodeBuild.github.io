@@ -109,6 +109,14 @@
 			controls.update( clock.getDelta());
 		})();
 
+		window.addEventListener('devicemotion', function(event) {
+			console.log(event.acceleration.x + ' m/s2');
+			var z = event.alpha;
+			var x = event.beta;
+			var y = event.gamma;
+			camera.lookAt( new THREE.Vector3( x, y, z ) )
+		});
+
     // Ask the browser to lock the pointer
 	</script>
 	</body>
