@@ -109,15 +109,18 @@
 			controls.update( clock.getDelta());
 		})();
 
+		var x = 0;
+		var y = 0;
+		var z = -1;
 		window.addEventListener('devicemotion', function(event) {
 //			console.log(event.acceleration.x + ' m/s2');
 //			var z = event.rotationRate.alpha;
 //			var x = event.rotationRate.beta;
 //			var y = event.rotationRate.gamma;
 
-			var x = Math.cos(event.rotationRate.gamma);
-			var y = Math.sin(event.rotationRate.beta);
-			var z = -Math.sin(event.rotationRate.gamma) - Math.cos(event.rotationRate.beta);
+			x += Math.cos(event.rotationRate.gamma);
+			y += Math.sin(event.rotationRate.beta);
+			z += -Math.sin(event.rotationRate.gamma) - Math.cos(event.rotationRate.beta);
 			console.log(x, y, z);
 			camera.lookAt( new THREE.Vector3( x, y, z ) )
 		});
