@@ -12,6 +12,7 @@
 		</style>
 		<script src="js/three.js"></script>
 		<script src="js/FirstPersonControls.js"></script>
+    <script src='js/threex.text.js'></script>
 		<script src="js/algorithm.js"></script>
 		<script src="js/model.js"></script>
 	</head>
@@ -45,7 +46,10 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 		document.body.appendChild( renderer.domElement );
-//		camera.position.z = 300;
+//    var hintText = THREE.TextGeometry('Press V to Interact with W A S D and Mouse');
+//    var hintText = new THREEx.Text('Press V to Interact with W A S D and Mouse');
+//    hintText.setPosition(new Vector3(0, 500, -300));
+//    scene.add(hintText);
 
 		// models
 		var columnsModel = init_columns(250);
