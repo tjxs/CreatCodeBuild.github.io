@@ -1,9 +1,7 @@
 /*
  * ColumnModel is the creator function of a columnModel object instance
  * Do not construct, because constructors are confusing in JS, at least to me
- *
- * @step: positive number, the distance between each column
- * @begin: the beginning position of the first column
+ * Author: CreatCodeBuild@github.com
  */
 
 
