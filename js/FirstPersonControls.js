@@ -122,9 +122,12 @@ THREE.FirstPersonControls = function ( object, domElement ) {
     this.onMouseMove = function ( event ) {
 
         if ( this.domElement === document ) {
-
-            this.mouseX = event.pageX - this.viewHalfX;
-            this.mouseY = event.pageY - this.viewHalfY;
+	        var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+	        var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+	        // this.mouseX = event.pageX - this.viewHalfX;
+	        // this.mouseY = event.pageY - this.viewHalfY;
+	        this.mouseX = movementX * 100;
+	        this.mouseY = movementY * 100;
 
         } else {
 
@@ -134,6 +137,20 @@ THREE.FirstPersonControls = function ( object, domElement ) {
         }
 
     };
+
+    // var onMouseMove = function ( event ) {
+    //
+    //     if ( scope.enabled === false ) return;
+    //
+    //     var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+    //     var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+    //
+    //     yawObject.rotation.y -= movementX * 0.002;
+    //     pitchObject.rotation.x -= movementY * 0.002;
+    //
+    //     pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
+    //
+    // };
 
     this.onKeyDown = function ( event ) {
 
@@ -228,9 +245,11 @@ THREE.FirstPersonControls = function ( object, domElement ) {
         }
 
         this.lon += this.mouseX * actualLookSpeed;
+	    this.mouseX = 0;
         if( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
+	    this.mouseY = 0;
 
-        this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
+	    this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
         this.phi = THREE.Math.degToRad( 90 - this.lat );
 
         this.theta = THREE.Math.degToRad( this.lon );
