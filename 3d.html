@@ -111,19 +111,22 @@
 
 		var gamma = 0;
 		var beta = 0;
+		var i = 0;
 		window.addEventListener('devicemotion', function(event) {
 //			console.log(event.acceleration.x + ' m/s2');
 //			var z = event.rotationRate.alpha;
 //			var x = event.rotationRate.beta;
 //			var y = event.rotationRate.gamma;
-
-			gamma += event.rotationRate.gamma;
-			beta += event.rotationRate.beta;
-			var x = Math.cos(gamma);
-			var y = Math.sin(beta);
-			var z = -Math.sin(gamma) - Math.cos(beta);
-			console.log(x, y, z);
-			camera.lookAt( new THREE.Vector3( x, y, z ) )
+			if(i % 100 === 0) {
+				gamma += event.rotationRate.gamma;
+				beta += event.rotationRate.beta;
+				var x = Math.cos(gamma);
+				var y = Math.sin(beta);
+				var z = -Math.sin(gamma) - Math.cos(beta);
+				console.log(x, y, z);
+				camera.lookAt( new THREE.Vector3( x, y, z ) )
+			}
+			i++;
 		});
 
     // Ask the browser to lock the pointer
