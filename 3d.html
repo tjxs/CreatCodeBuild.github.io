@@ -117,7 +117,8 @@
 //			var z = event.rotationRate.alpha;
 //			var x = event.rotationRate.beta;
 //			var y = event.rotationRate.gamma;
-			if(i % 100 === 0) {
+			if(i % 1000 === 0) {
+				console.log(gamma, beta);
 				gamma += event.rotationRate.gamma;
 				beta += event.rotationRate.beta;
 				var x = Math.cos(gamma);
