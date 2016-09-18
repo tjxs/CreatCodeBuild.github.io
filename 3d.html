@@ -41,7 +41,7 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 		document.body.appendChild( renderer.domElement );
-		camera.position.z = 300;
+//		camera.position.z = 300;
 
 		// models
 		var columnsModel = init_columns(250);
@@ -70,7 +70,7 @@
 		THREE.FirstPersonControls(camera);
 		controls = new THREE.FirstPersonControls( camera );
 		controls.movementSpeed = 100;
-		controls.lookSpeed = 0.3;
+		controls.lookSpeed = 100;
 		controls.noFly = true;
 		controls.lookVertical = true;
 
@@ -80,7 +80,7 @@
 			renderer.render( scene, camera );
 			quickSortGenerator.next();
 			columnsModel.justify_position();
-			controls.update( clock.getDelta() );
+			controls.update( clock.getDelta());
 		})();
 	</script>
 	</body>

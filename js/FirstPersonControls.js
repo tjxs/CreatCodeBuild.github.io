@@ -5,6 +5,8 @@
  */
 THREE.FirstPersonControls = function ( object, domElement ) {
 
+	let neverMoved = true;
+
     this.object = object;
     this.target = new THREE.Vector3( 0, 0, 0 );
 
@@ -120,37 +122,20 @@ THREE.FirstPersonControls = function ( object, domElement ) {
     };
 
     this.onMouseMove = function ( event ) {
+	    neverMoved = false;
 
         if ( this.domElement === document ) {
 	        var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
 	        var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 	        // this.mouseX = event.pageX - this.viewHalfX;
 	        // this.mouseY = event.pageY - this.viewHalfY;
-	        this.mouseX = movementX * 100;
-	        this.mouseY = movementY * 100;
-
+	        this.mouseX = movementX;
+	        this.mouseY = movementY;
         } else {
-
             this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
             this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
-
         }
-
     };
-
-    // var onMouseMove = function ( event ) {
-    //
-    //     if ( scope.enabled === false ) return;
-    //
-    //     var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
-    //     var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
-    //
-    //     yawObject.rotation.y -= movementX * 0.002;
-    //     pitchObject.rotation.x -= movementY * 0.002;
-    //
-    //     pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
-    //
-    // };
 
     this.onKeyDown = function ( event ) {
 
@@ -200,7 +185,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
     };
 
-    this.update = function( delta ) {
+    this.update = function( delta, firstTime) {
 
         if ( this.enabled === false ) return;
 
@@ -263,10 +248,17 @@ THREE.FirstPersonControls = function ( object, domElement ) {
         var targetPosition = this.target,
           position = this.object.position;
 
-        targetPosition.x = position.x + 100 * Math.sin( this.phi ) * Math.cos( this.theta );
-        targetPosition.y = position.y + 100 * Math.cos( this.phi );
-        targetPosition.z = position.z + 100 * Math.sin( this.phi ) * Math.sin( this.theta );
+	      if (!neverMoved) {
+		      targetPosition.x = position.x + 100 * Math.sin( this.phi ) * Math.cos( this.theta );
+		      targetPosition.y = position.y + 100 * Math.cos( this.phi );
+		      targetPosition.z = position.z + 100 * Math.sin( this.phi ) * Math.sin( this.theta );
+	      } else {
+		      targetPosition.x = 0;
+		      targetPosition.y = 0;
+		      targetPosition.z = -1;
+	      }
 
+	      console.log(targetPosition);
         this.object.lookAt( targetPosition );
 
     };

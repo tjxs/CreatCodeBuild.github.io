@@ -67,7 +67,7 @@ function ColumnsModel(step, begin) {
     var geometry = new THREE.BoxGeometry( 0.5, height, 0.5 );
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
     var cube = new THREE.Mesh( geometry, material );
-    cube.position.set(right_pos_of_column(model.columns.length), 0, 0);  //x, y, z
+    cube.position.set(right_pos_of_column(model.columns.length), 0, -300);  //x, y, z
     model.columns.push(cube);
   }
 
