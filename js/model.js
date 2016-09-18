@@ -35,11 +35,19 @@ function move_to(fromEle, array, toIndex) {
 }
 
 
-function ColumnsModel(step, begin) {
+/*
+ * @begin: 2-d array [x, z]; the begining point of x and z
+ * @orientation: array as a 2-d vector [x, z]; how many distance between each column and to which direction
+ * return a columns model
+ */
+function ColumnsModel(begin, orientation) {
+
+  // if(orientation !== [0,1] || orientation !== [1,0] || orientation !== [0,-1] || orientation !== [-1,0]) {
+  //   throw Error('orientation value error');
+  // }
 
   var model = {};
   model.columns = [];
-  model.step = step;
   model.begin = begin;
   model.justify_position = justify_position;
   model.create_column = create_column;
@@ -48,14 +56,15 @@ function ColumnsModel(step, begin) {
   /*
    * Should be called every time after elements in columns are changed in position
   **/
-  let count = 1;
+  // let count = 1;
   function justify_position() {
     // console.log('justify_position', count++);
     for(var index in model.columns) {
-      var rightPos = right_pos_of_column(index);
-      if(model.columns[index].position.x !== rightPos) {
+      if(!is_at_right_pos(index)) {
         // console.log('not right', model.columns[index].position.x, rightPos);
-        model.columns[index].position.x = rightPos;
+	      var rightPos = right_pos_of_column(index);
+        model.columns[index].position.x = rightPos[0];
+	      model.columns[index].position.z = rightPos[1];
       }
     }
   }
@@ -67,12 +76,24 @@ function ColumnsModel(step, begin) {
     var geometry = new THREE.BoxGeometry( 0.5, height, 0.5 );
     var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
     var cube = new THREE.Mesh( geometry, material );
-    cube.position.set(right_pos_of_column(model.columns.length), 0, -300);  //x, y, z
+
+	  // set the correct position of column/cube
+	  var pos = right_pos_of_column(model.columns.length);
+    cube.position.set(pos[0], 0, pos[1]);  //x, y, z
     model.columns.push(cube);
   }
 
   function right_pos_of_column(index) {
-    return model.begin + index*model.step;
+    return [model.begin[0] + index*orientation[0], model.begin[1] + index*orientation[1]];
+  }
+
+  /*
+   * Only check x and z position for now. Y is always zero
+   * @return: bool
+   */
+  function is_at_right_pos(index) {
+  	var pos = right_pos_of_column(index);
+  	return model.columns[index].position.x === pos[0] && model.columns[index].position.z === pos[1];
   }
 
   function print() {
