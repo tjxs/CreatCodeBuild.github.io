@@ -13,15 +13,12 @@
 	</head>
 	<body>
 	<script>
-//		import ColumnsModel from 'js/model';
 		/* 3D */
 		function init_columns(numColumns) {
 			var columnsModel = ColumnsModel(2, -numColumns);
-//			columns = [];
 			for(var i = 0; i < numColumns; i++) {
 				columnsModel.create_column(Math.floor(Math.random() * (300)) + 1);
 			}
-//			return columns;
 			return columnsModel;
 		}
 
@@ -32,42 +29,51 @@
 		}
 
 		/* Start */
-		var i = 0;
-		var f = true;
-		function render() {
-			requestAnimationFrame( render );
-			renderer.render( scene, camera );
-			if(i % 1 === 0) {
-				if(f){
-//					console.log(i);
-				}
-				var next = mergeSortGenerator.next();
-				columnsModel.justify_position();
-//				console.log('step:', i);
-//				if ( next.done && f ) {
-//					print(columns);
-//					f = false;
-//				}
-			}
-//			if(i === 700) {
-//				columnsModel.print();
-//			}
-			i++;
-		}
-
 		var scene = new THREE.Scene();
 		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+		camera.position.z = 300;
+
+		// models
 		var columnsModel = init_columns(450);
 		add_all_to(scene, columnsModel.columns);
 
 		var quickSortGenerator = Algorithm.quick_sort(columnsModel.columns, 0, columnsModel.columns.length-1, swap, smaller_than);
-		var mergeSortGenerator = Algorithm.merge_sort(columnsModel.columns, move_to, smaller_than);
+		// var mergeSortGenerator = Algorithm.merge_sort(columnsModel.columns, move_to, smaller_than);
 
-		renderer.setSize( window.innerWidth, window.innerHeight );
-		document.body.appendChild( renderer.domElement );
-		camera.position.z = 300;
-		render();
+		(function render() {
+			requestAnimationFrame( render );
+			renderer.render( scene, camera );
+			quickSortGenerator.next();
+			columnsModel.justify_position();
+		})();
+
+		// key, user interaction
+		let speed = 5;
+		document.onkeypress = function(evt) {
+			evt = evt || window.event;
+			var charCode = evt.keyCode || evt.which;
+			var charStr = String.fromCharCode(charCode);
+			console.log(charStr);
+			switch(charStr) {
+				case 'a':
+					camera.position.x -= speed;
+					break;
+				case 'd':
+					camera.position.x += speed;
+					break;
+				case 'w':
+					camera.position.y += speed;
+					break;
+				case 's':
+					camera.position.y -= speed;
+					break;
+			}
+		};
+		camera.up = new THREE.Vector3(0,0,1);
+		camera.lookAt(new THREE.Vector3(0,0,-1));
 	</script>
 	</body>
 </html>

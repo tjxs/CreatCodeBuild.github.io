@@ -14,7 +14,7 @@ var Algorithm = {
         var next = partitionGeneratorObj.next();
         // console.log('b finally yield ee', fy);
         if(next.value === undefined) {
-          console.log(next.value);
+          // console.log(next.value);
           yield;
         } else {
           // console.log('b finally yield', fy);
@@ -32,13 +32,13 @@ var Algorithm = {
     var wall = start;
     for(var i = start; i < end; i++) {
       if(compare(array[i], array[end])) {
-        console.log(wall, i);
+        // console.log(wall, i);
         swap(array, wall, i);
         yield;
         wall++;
       }
     }
-    console.log('wall', wall, end);
+    // console.log('wall', wall, end);
     swap(array, wall, end);
     yield wall;
   },
@@ -51,28 +51,8 @@ var Algorithm = {
       var left = array.slice(0, m);
       var right = array.slice(m);
 
-      var mergeSortLeft = this.merge_sort(left, move_to, compare);
-      while(!done) {
-        var next = mergeSortLeft.next();
-        if(next.value === undefined) {
-          yield
-        } else {
-          done = true;
-        }
-      }
-
-      var mergeSortRight = this.merge_sort(right, move_to, compare);
-      done = false;
-      while(!done) {
-        var next = mergeSortRight.next();
-        if(next.value === undefined) {
-          yield
-        } else {
-          done = true;
-        }
-      }
-      // yield* this.merge_sort(left, move_to, compare);
-      // yield* this.merge_sort(right, move_to, compare);
+      yield* this.merge_sort(left, move_to, compare);
+      yield* this.merge_sort(right, move_to, compare);
 
       // merge
       var mergeGeneratorObj = this.merge(array, left, right, move_to, compare);
@@ -126,7 +106,7 @@ var Algorithm = {
       i += 1;
       yield;
     }
-    console.log('merge');
+    // console.log('merge');
     yield 'done';
   }
 };

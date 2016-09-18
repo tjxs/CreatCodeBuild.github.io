@@ -50,11 +50,11 @@ function ColumnsModel(step, begin) {
   **/
   let count = 1;
   function justify_position() {
-    console.log('justify_position', count++);
+    // console.log('justify_position', count++);
     for(var index in model.columns) {
       var rightPos = right_pos_of_column(index);
       if(model.columns[index].position.x !== rightPos) {
-        console.log('not right', model.columns[index].position.x, rightPos);
+        // console.log('not right', model.columns[index].position.x, rightPos);
         model.columns[index].position.x = rightPos;
       }
     }
