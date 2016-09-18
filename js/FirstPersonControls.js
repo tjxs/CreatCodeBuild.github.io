@@ -6,6 +6,8 @@
 THREE.FirstPersonControls = function ( object, domElement ) {
 
 	let neverMoved = true;
+	let accumulatedXMove = 0;
+	let accumulatedYMove = 0;
 
     this.object = object;
     this.target = new THREE.Vector3( 0, 0, 0 );
@@ -29,7 +31,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
     this.constrainVertical = false;
     this.verticalMin = 0;
-    this.verticalMax = Math.PI;
+    this.verticalMax = 0;
 
     this.autoSpeedFactor = 0.0;
 
@@ -37,9 +39,13 @@ THREE.FirstPersonControls = function ( object, domElement ) {
     this.mouseY = 0;
 
     this.lat = 0;
-    this.lon = 0;
+    this.lon = 180;
+		// here we need to specify the initial angular degree to let it point to right direction, need to add more comments tomorrow
+		// todo: change the API a little bit, let the caller scope specify the initial angular
+		// todo: the naming of lat, lon, theta and phi are confusing, use better name
+
     this.phi = 0;
-    this.theta = 0;
+    this.theta = Math.PI;
 
     this.moveForward = false;
     this.moveBackward = false;
@@ -131,6 +137,9 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 	        // this.mouseY = event.pageY - this.viewHalfY;
 	        this.mouseX = movementX;
 	        this.mouseY = movementY;
+	        accumulatedXMove = movementX;
+	        accumulatedYMove = movementY;
+	        console.log('mouse', movementY);
         } else {
             this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
             this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
@@ -229,38 +238,39 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
         }
 
-        this.lon += this.mouseX * actualLookSpeed;
+        this.lon -= this.mouseX * actualLookSpeed;
 	    this.mouseX = 0;
         if( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
 	    this.mouseY = 0;
 
-	    this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
-        this.phi = THREE.Math.degToRad( 90 - this.lat );
-
-        this.theta = THREE.Math.degToRad( this.lon );
+	    this.lat = Math.max( - 85, Math.min( 85, this.lat ) ); // we only want to look up at most 85 degree, loot down at most 85 degree
+	    console.log('lon', this.lon);
+        // this.phi = THREE.Math.degToRad( 90 - this.lat );
+	    this.phi = THREE.Math.degToRad( this.lat );
+	    this.theta = THREE.Math.degToRad( this.lon );
 
         if ( this.constrainVertical ) {
-
             this.phi = THREE.Math.mapLinear( this.phi, 0, Math.PI, this.verticalMin, this.verticalMax );
-
         }
 
         var targetPosition = this.target,
           position = this.object.position;
 
-	      if (!neverMoved) {
-		      targetPosition.x = position.x + 100 * Math.sin( this.phi ) * Math.cos( this.theta );
-		      targetPosition.y = position.y + 100 * Math.cos( this.phi );
-		      targetPosition.z = position.z + 100 * Math.sin( this.phi ) * Math.sin( this.theta );
-	      } else {
-		      targetPosition.x = 0;
-		      targetPosition.y = 0;
-		      targetPosition.z = -1;
-	      }
-
-	      console.log(targetPosition);
+	      // if (!neverMoved) {
+		     //  targetPosition.x = position.x + 100 * Math.sin( this.phi ) * Math.cos( this.theta );
+		     //  targetPosition.y = position.y + 100 * Math.cos( this.phi );
+		     //  targetPosition.z = position.z + 100 * Math.sin( this.phi ) * Math.sin( this.theta );
+		    targetPosition.x = position.x + 100 * Math.sin( this.theta );
+		    targetPosition.y = position.y + 100 * Math.sin( this.phi );
+		    targetPosition.z = position.z + 100 * Math.cos( this.theta );
+	      // } else {
+		     //  targetPosition.x = 0;
+		     //  targetPosition.y = 0;
+		     //  targetPosition.z = -1;
+	      // }
+	      console.log(position.x, position.y, position.z);
+	      console.log(targetPosition, this.phi, this.theta, Math.sin( this.phi ), Math.cos( this.theta ));
         this.object.lookAt( targetPosition );
-
     };
 
 
