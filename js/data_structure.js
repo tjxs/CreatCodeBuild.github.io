@@ -1,15 +1,13 @@
-function Node() {
+/*
+ * Creator function. Do not construct. Constructor is a useless idea with potential confusing this binding
+ **/
+function Node(obj) {
 	return {
-		node: node,
+		value: obj,
+		height: height,
 		left: left,
 		right: right
-	}
-}
-
-function AVLNode() {
-	return {
-
-	}
+	};
 }
 
 function BinaryTree() {
@@ -20,6 +18,31 @@ function BST() {
 
 }
 
+// todo: implement it
 function AVL() {
 
+	var tree = {};
+	tree.root = undefined;
+
+	function left_rotate()
+
+	function right_rotate()
+
+	function add(node) {
+
+	}
+
+	function remove()
+
+	function in_order(node, apply)
+
+	function pre_order(node, apply)
+
+	function post_order(node, apply)
+
+	function level_order(node, apply)
+
+	function is_balance(node)
+
+	return tree;
 }
