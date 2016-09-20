@@ -1,5 +1,5 @@
 /*
- * ColumnModel is the creator function of a columnModel object instance
+ * ColumnModel is the creator function of a ColumnModel object instance
  * Do not construct, because constructors are confusing in JS, at least to me
  * Author: CreatCodeBuild@github.com
  */

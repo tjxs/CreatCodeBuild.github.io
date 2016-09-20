@@ -4,10 +4,15 @@
  **/
 
 /*
- * @leafDistance: positive number, the distance between 2 leaves
+ * @leafStep: a (x, z) vector, the distance between 2 leaves and the direction
  * @rootPos: the (x, y, z) position of root
- * @facing: a (x, y, z) vector that defines the direction the tree is facing
+ * TreeModel is the creator function of a TreeModel object instance
+ * Do not construct, because constructors are confusing in JS, at least to me
  **/
-function TreeModel(leafDistance, rootPos, facing) {
-	
+function TreeModel(leafStep, rootPos) {
+
+	// Do I encode tree in object field reference? Or in array?
+
+	var model = {}
+
 }
