@@ -40,6 +40,8 @@ function move_to(fromEle, array, toIndex) {
  */
 function ColumnsModel(begin, orientation) {
 
+	// todo: TreeModel and ColumnsModel share common pattern. Consider making them prototypical inherited?
+
   // if(orientation !== [0,1] || orientation !== [1,0] || orientation !== [0,-1] || orientation !== [-1,0]) {
   //   throw Error('orientation value error');
   // }
