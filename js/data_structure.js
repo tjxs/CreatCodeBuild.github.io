@@ -1,13 +1,6 @@
 /*
  * Creator function. Do not construct. Constructor is a useless idea with potential confusing this binding
  **/
-function BinaryTree() {
-
-}
-
-function BST() {
-
-}
 
 /*
  * @compare_function: (node1, node2) => bool, true if node1 > node2 else false
@@ -48,11 +41,7 @@ function AVL(compare_function) {
 	}
 
 	function set_height(node) {
-		// if( node ) {
 			node.height = 1 + Math.max( height(node.left), height(node.right) );
-		// }
-		// // this node is leaf
-		// return 0
 	}
 
 	function height(node) {
@@ -72,19 +61,15 @@ function AVL(compare_function) {
 	 **/
 	function insert_on(root, node) {
 		if( !root ) {  // if the tree is empty
-			// console.log(root);
 			set_height(node);
 			return node;
 		}
 		// insert on child
 		if( compare(node.value, root.value) ) {
-			// console.log('node > root');
 			root.right = insert_on(root.right, node);
 		} else {
-			// console.log('node <= root');
 			root.left = insert_on(root.left, node);
 		}
-		// maintain balance
 		return balancing(root);
 	}
 
