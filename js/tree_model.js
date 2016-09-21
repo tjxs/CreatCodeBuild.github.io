@@ -16,17 +16,20 @@ function TreeModel(leafStep, rootPos, levelHeight) {
 
 	// todo: TreeModel and ColumnsModel share common pattern. Consider making them prototypical inherited?
 
-	var model = {};
 
-	function justify_position() {}
 
-	function create_node() {}
+	function adjust_position() {}
 
-	function right_pos_ofnode() {} //how to do this if encoded as object field reference?
+	function add_node() {}
 
-	function is_at_right_post() {}
+	function right_pos_of_node() {} //how to do this if encoded as object field reference?
+
+	function is_at_right_pos() {}
 
 	function print() {}
 
+	var model = {};
+	model.add_node = add_node;
+	model.adjust_position = adjust_position;
 	return model;
 }

@@ -21,7 +21,6 @@
 	<script>
 		/* 3D */
 		function init_columns(numColumns, begin, orientation) {
-//			var columnsModel = ColumnsModel([-numColumns, -300], [2, 1]);
 			var columnsModel = ColumnsModel(begin, orientation);
 			for(var i = 0; i < numColumns; i++) {
 				columnsModel.create_column(Math.floor(Math.random() * (100)) + 1);
@@ -33,6 +32,10 @@
 			for(var i in columns) {
 				scene.add(columns[i]);
 			}
+		}
+
+		function init_tree() {
+			var treeModel = TreeModel();
 		}
 
 		/* Start */
@@ -47,10 +50,7 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 		document.body.appendChild( renderer.domElement );
-//    var hintText = THREE.TextGeometry('Press V to Interact with W A S D and Mouse');
-//    var hintText = new THREEx.Text('Press V to Interact with W A S D and Mouse');
-//    hintText.setPosition(new Vector3(0, 500, -300));
-//    scene.add(hintText);
+
 
 		// models
 		var columnsModel1 = init_columns(250, [-250, -300], [2, 0]);
@@ -109,26 +109,29 @@
 			controls.update( clock.getDelta());
 		})();
 
-		var gamma = 0;
-		var beta = 0;
-		var i = 0;
-		window.addEventListener('devicemotion', function(event) {
-//			console.log(event.acceleration.x + ' m/s2');
-//			var z = event.rotationRate.alpha;
-//			var x = event.rotationRate.beta;
-//			var y = event.rotationRate.gamma;
-			if(i % 50 === 0) {
-				console.log(event.rotationRate.alpha, beta, gamma);
-				gamma += event.rotationRate.gamma;
-				beta += event.rotationRate.beta;
-				var x = Math.cos(gamma);
-				var y = Math.sin(beta);
-				var z = -Math.sin(gamma) - Math.cos(beta);
-				console.log(x, y, z);
-				camera.lookAt( new THREE.Vector3( x, y, z ) )
-			}
-			i++;
-		});
+
+
+/* For Mobile */
+//		var gamma = 0;
+//		var beta = 0;
+//		var i = 0;
+//		window.addEventListener('devicemotion', function(event) {
+////			console.log(event.acceleration.x + ' m/s2');
+////			var z = event.rotationRate.alpha;
+////			var x = event.rotationRate.beta;
+////			var y = event.rotationRate.gamma;
+//			if(i % 50 === 0) {
+//				console.log(event.rotationRate.alpha, beta, gamma);
+//				gamma += event.rotationRate.gamma;
+//				beta += event.rotationRate.beta;
+//				var x = Math.cos(gamma);
+//				var y = Math.sin(beta);
+//				var z = -Math.sin(gamma) - Math.cos(beta);
+//				console.log(x, y, z);
+//				camera.lookAt( new THREE.Vector3( x, y, z ) )
+//			}
+//			i++;
+//		});
 
     // Ask the browser to lock the pointer
 	</script>
