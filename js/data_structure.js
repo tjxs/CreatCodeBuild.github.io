@@ -3,7 +3,7 @@
  **/
 
 /*
- * @compare_function: (node1, node2) => bool, true if node1 > node2 else false
+ * @compare_function: (node1, node2) => bool, true if node1 > node2 else false; This function only compare node.value
  * @return: an AVL tree
 * */
 function AVL(compare_function) {
@@ -111,15 +111,33 @@ function AVL(compare_function) {
 			if(node) {
 				// console.log(node.left, 'OO', node.right);
 				f(node.left, apply);
-				apply(node);
+				apply? apply(node.value): console.log(node.value);
 				f(node.right, apply);
 			}
 		})(tree.root, apply);
 	}
 
-	function pre_order(node, apply) {}
+	function pre_order(apply) {
+		(function f(node, apply) {
+			// console.log(node.value);
+			if(node) {
+				apply? apply(node.value): console.log(node.value);
+				f(node.left, apply);
+				f(node.right, apply);
+			}
+		})(tree.root, apply);
+	}
 
-	function post_order(node, apply) {}
+	function post_order(node, apply) {
+		(function f(node, apply) {
+			// console.log(node.value);
+			if(node) {
+				f(node.left, apply);
+				f(node.right, apply);
+				apply? apply(node.value): console.log(node.value);
+			}
+		})(tree.root, apply);
+	}
 
 	function level_order(apply) {
 		if( tree.root ) {
@@ -127,7 +145,7 @@ function AVL(compare_function) {
 			q.push(tree.root);
 			while( q.length > 0 ) {
 				var node = q.shift();
-				apply? apply(node): console.log(node.value);
+				apply? apply(node.value): console.log(node.value);
 				if( node.left ) {
 					q.push(node.left)
 				}
@@ -140,7 +158,6 @@ function AVL(compare_function) {
 			console.log('Tree is Empty!');
 		}
 	}
-
 
 
 	// Create the tree
@@ -157,7 +174,7 @@ function AVL(compare_function) {
 }
 
 
-// test
+/* test */
 var tree = AVL(function(a, b) {
 	// console.log(a, b);
 	return a > b;
@@ -172,12 +189,12 @@ tree.add(15);
 tree.add(17);
 tree.add(20);
 
-tree.in_order(function(node) {
-	console.log(node.value);
+tree.in_order(function(value) {
+	console.log(value);
 });
 
 console.log('Level Order');
-tree.level_order(function(node) {
-	console.log(node.value);
+tree.level_order(function(value) {
+	console.log(value);
 });
 
