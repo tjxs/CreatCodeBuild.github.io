@@ -88,8 +88,27 @@
 			}
 		}
 
+		// Caller Scope Implemented Algorithm High Order function
+		function smaller_than(cube1, cube2) {
+			return cube1.geometry.parameters.height < cube2.geometry.parameters.height;
+		}
 
-		/* Start */
+		function larger_than(cube1, cube2) {
+			return cube1.geometry.parameters.height > cube2.geometry.parameters.height;
+		}
+
+		function swap(array, a, b) {
+			var temp = array[a];
+			array[a] = array[b];
+			array[b] = temp;
+		}
+
+		function move_to(fromEle, array, toIndex) {
+			array[toIndex] = fromEle;
+		}
+
+
+		/* Start  开始 */
 		// THREE
 		camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
 
