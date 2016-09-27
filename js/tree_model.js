@@ -14,8 +14,7 @@ function TreeModel(leafStep, rootPos, levelHeight) {
 
 	// Do I encode tree in object field reference? Or in array?
 
-	// todo: TreeModel and ColumnsModel share common pattern. Consider making them prototypical inherited?
-
+	//todo: implement it
 
 
 	function adjust_position() {}

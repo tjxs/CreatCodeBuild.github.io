@@ -103,13 +103,12 @@ function AVL(compare_function) {
 		return node;
 	}
 
+	// todo: implement it
 	function remove() {}
 
 	function in_order(apply) {
 		(function f(node, apply) {
-			// console.log(node.value);
 			if(node) {
-				// console.log(node.left, 'OO', node.right);
 				f(node.left, apply);
 				apply? apply(node.value): console.log(node.value);
 				f(node.right, apply);
@@ -119,7 +118,6 @@ function AVL(compare_function) {
 
 	function pre_order(apply) {
 		(function f(node, apply) {
-			// console.log(node.value);
 			if(node) {
 				apply? apply(node.value): console.log(node.value);
 				f(node.left, apply);
@@ -128,9 +126,8 @@ function AVL(compare_function) {
 		})(tree.root, apply);
 	}
 
-	function post_order(node, apply) {
+	function post_order(apply) {
 		(function f(node, apply) {
-			// console.log(node.value);
 			if(node) {
 				f(node.left, apply);
 				f(node.right, apply);
@@ -175,26 +172,30 @@ function AVL(compare_function) {
 
 
 /* test */
-var tree = AVL(function(a, b) {
-	// console.log(a, b);
-	return a > b;
-});
+// Immediately invoke, protect global namespace
+(function() {
+	var tree = AVL(function(a, b) {
+		// console.log(a, b);
+		return a > b;
+	});
 
-tree.add(-10);
-tree.add(2);
-tree.add(13);
-tree.add(-13);
-tree.add(-15);
-tree.add(15);
-tree.add(17);
-tree.add(20);
+	tree.add(-10);
+	tree.add(2);
+	tree.add(13);
+	tree.add(-13);
+	tree.add(-15);
+	tree.add(15);
+	tree.add(17);
+	tree.add(20);
 
-tree.in_order(function(value) {
-	console.log(value);
-});
+	tree.in_order(function(value) {
+		console.log(value);
+	});
 
-console.log('Level Order');
-tree.level_order(function(value) {
-	console.log(value);
-});
+	console.log('Level Order');
+	tree.level_order(function(value) {
+		console.log(value);
+	});
+
+})();
 
