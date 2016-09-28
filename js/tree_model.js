@@ -15,7 +15,7 @@ function TreeModel(leafStep, rootPos, levelHeight) {
 	// Do I encode tree in object field reference? Or in array?
 
 	//todo: implement it
-
+	var model;
 
 	function adjust_position() {}
 
@@ -25,9 +25,25 @@ function TreeModel(leafStep, rootPos, levelHeight) {
 
 	function is_at_right_pos() {}
 
+	/*
+	 * 比较两个立方体Cube的大小。这里的大小不是体积，而是颜色的RPG值的总和
+	 * @cub1, cube2: Mesh
+	 * @return: boolean cube1 > cube2
+	 */
+	function compare_color(cube1, cube2) {
+		var hex1 = cube1.material.color.getHex();	// 注意，这里的Hex值是RGB的乘积，不是和
+		var hex2 = cube2.material.color.getHex();
+
+		var sum1 = hex1;	// Implement it
+		var sum2 = hex2;
+		
+		return sum1 > sum2;
+	}
+
 	function print() {}
 
-	var model = {};
+	model = {};
+	model.tree = AVL(compare_color);
 	model.add_node = add_node;
 	model.adjust_position = adjust_position;
 	return model;
