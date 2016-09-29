@@ -36,7 +36,7 @@ function TreeModel(leafStep, rootPos, levelHeight) {
 
 		var sum1 = hex1;	// Implement it
 		var sum2 = hex2;
-		
+
 		return sum1 > sum2;
 	}
 
