@@ -19,6 +19,7 @@ var Algorithm = {
           done = true;
         }
       }
+
       yield* this.quick_sort(array, start, wall-1, swap, compare);
       yield* this.quick_sort(array, wall+1, end, swap, compare);
     }
